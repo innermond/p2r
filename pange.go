@@ -65,10 +65,12 @@ func (sel Selection) Split(seps ...string) (ends []Interval, err error) {
 	return
 }
 
-func (ss Selection) Full() (full []int, err error) {
-	ii, err := ss.Split()
-	if err != nil {
-		return
+func (ss Selection) Full(ii ...Interval) (full []int, err error) {
+	if ii == nil {
+		ii, err = ss.Split()
+		if err != nil {
+			return
+		}
 	}
 
 	// all intervals as a slice of ints
