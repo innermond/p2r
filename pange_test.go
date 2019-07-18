@@ -40,6 +40,36 @@ func TestSplit(t *testing.T) {
 	}
 }
 
+func TestFull(t *testing.T) {
+	tt := []struct {
+		p    string
+		want []int
+	}{
+		{"1,2,3",
+			[]int{1, 2, 3},
+		},
+		{"2-4,1-3, 5-6, 8-8, 11, 12,9-10,10,9,9,8-9",
+			[]int{1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12},
+		},
+		{"1-3,8",
+			[]int{1, 2, 3, 8},
+		},
+		{"1-3,2-5, 7-8, 9, 10",
+			[]int{1, 2, 3, 4, 5, 7, 8, 9, 10},
+		},
+	}
+	for i, tc := range tt {
+		sel := Selection(tc.p)
+		got, err := sel.Full()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(got, tc.want) {
+			t.Errorf("%d) got %v want %v", i, got, tc.want)
+		}
+	}
+}
+
 func TestNorm(t *testing.T) {
 	tt := []struct {
 		in   []int

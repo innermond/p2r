@@ -64,3 +64,19 @@ func (sel Selection) Split(seps ...string) (ends []Interval, err error) {
 	ends = fuze(ends)
 	return
 }
+
+func (ss Selection) Full() (full []int, err error) {
+	ii, err := ss.Split()
+	if err != nil {
+		return
+	}
+
+	// all intervals as a slice of ints
+	for _, i := range ii {
+		for x := i.A; x <= i.Z; x++ {
+			full = append(full, x)
+		}
+	}
+
+	return
+}
